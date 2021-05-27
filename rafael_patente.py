@@ -9,7 +9,6 @@ options.add_argument("--headless")#Não abre o navegador
 
 browser =  webdriver.Chrome(chrome_options=options,executable_path='C:\chromedriver.exe')
 browser.maximize_window()
-
 URL = "https://patents.google.com/patent/BRPI9909409B1/pt?oq=PI9909409"
 
 class main:
