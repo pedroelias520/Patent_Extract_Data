@@ -118,7 +118,7 @@ def EnterThePage():
         except:
             print("Erro ao pegar primeira classificação")
 
-        # PEGAR TODAS AS CLASSIFICAÇÕES
+        
         try:
             # Fazer as contagem das classificações
             patent_scope = browser.find_element_by_class_name("style-scope state-modifier")
