@@ -1,12 +1,13 @@
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.options import Options
- 
+import pandas as pd
+
 options = webdriver.ChromeOptions()
 options.add_experimental_option("excludeSwitches", ["enable-automation"])
 options.add_experimental_option('useAutomationExtension', False)
 options.add_argument("--headless")#Não abre o navegador
-
+dados = {}
 browser =  webdriver.Chrome(chrome_options=options,executable_path='C:\chromedriver.exe')
 browser.maximize_window()
 URL = "https://patents.google.com/patent/BRPI9909409B1/pt?oq=PI9909409"
@@ -66,7 +67,7 @@ def EnterThePage():
         try:
             #Por tudo que estã em classificação
             classificacao = browser.find_elements_by_class_name("code")
-            print("Classificação: ")
+            #print("Classificação: ")
         except:
             print("Erro ao capturar Patent scope")
 
@@ -113,22 +114,29 @@ def EnterThePage():
 
         try:
             #Pegar primeira classificação
-            primeira_classificacao = browser.find_elements_by_class_name("classification-tree")
-            print("Primeira Classificação: ", primeira_classificacao[0].text)
+            browser.find_element_by_css_selector("div.more.style-scope.classification-viewer").click()            
+            primeira_classificacao = browser.find_elements_by_class_name("code.style-scope.classification-tree") 
+            segunda_classificacao = browser.find_elements_by_class_name("description.style-scope.classification-tree")         
+            classifications = []
+            
+            
+            for i, j in zip(primeira_classificacao,segunda_classificacao):
+                if(i.text != "" and j.text != ""):
+                    classifications.append(i.text+":"+j.text)
+            print("\n")
+            print("Esta pantente possui ",len(classifications)," classificações")                                            
+            print("-"*20)              
+            for h in range(len(classifications)):
+                print(classifications[h])                
+            
+            print("-"*20)              
         except:
             print("Erro ao pegar primeira classificação")
-
-        
-        try:
-            # Fazer as contagem das classificações
-            patent_scope = browser.find_element_by_class_name("style-scope state-modifier")
-            print("Patent scope0: ")
-        except:
-            print("Erro ao capturar Patent scope")
-
-
-
-
+        path = 'C:/Users/Pedro/Documents/New_ProjectsGithub/Patent_Extract_Data'
+        dados = {'Citados por':[cited_by],'Patent Citations':[patent_citations],'Singles':[singles],'Titularidade':[nome],'Patent Family Size':[patent_family],'Claims':[claims],'PCT':[PCT],'Sem PCT, mas com algum depósito fora do Brasil':[val]}    
+        dados_dataframe = pd.DataFrame(dados)
+        dados_dataframe.to_excel(path + nome + ".xlsx")
+    
 main()
 
 
