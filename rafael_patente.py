@@ -132,7 +132,8 @@ def EnterThePage():
             print("-"*20)              
         except:
             print("Erro ao pegar primeira classificação")
-        path = 'C:/Users/Pedro/Documents/New_ProjectsGithub/Patent_Extract_Data'
+
+        path = "C:/Users/Pedro/Documents/New_ProjectsGithub/Patent_Extract_Data/"
         dados = {'Citados por':[cited_by],'Patent Citations':[patent_citations],'Singles':[singles],'Titularidade':[nome],'Patent Family Size':[patent_family],'Claims':[claims],'PCT':[PCT],'Sem PCT, mas com algum depósito fora do Brasil':[val]}    
         dados_dataframe = pd.DataFrame(dados)
         dados_dataframe.to_excel(path + nome + ".xlsx")
