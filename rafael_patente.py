@@ -127,7 +127,7 @@ def EnterThePage():
             print("Esta pantente possui ",len(classifications)," classificações")                                            
             print("-"*20)              
             for h in range(len(classifications)):
-                print(classifications[h])                
+                print('Classificação numero'+ h +':'+classifications[h])                
             
             print("-"*20)              
         except:
